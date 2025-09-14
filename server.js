@@ -21,12 +21,7 @@ dotenv.config();
 app.use(express.json());
 app.use(morgan('dev'));
 
-// Configure CORS
-const corsOptions = {
-  origin: 'https://shopeklopek.vercel.app',
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 // Connect to the database
 conn();
