@@ -134,7 +134,7 @@ export const getAllOrdersController = async (req, res) => {
                     model: 'category'
                 }
             })
-            .populate('customer')
+            // .populate('customer')
             .sort({ createdAt: -1 });
         res.status(200).send({
             success: true,
