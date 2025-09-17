@@ -119,7 +119,7 @@ export const getUserOrdersController = async (req, res) => {
 // Get all orders (admin only)
 export const getAllOrdersController = async (req, res) => {
     try {
-        const orders = await orderModel.find()
+        const orders = await orderModel.find({})
             .populate({
                 path: 'products',
                 populate: {
