@@ -119,27 +119,40 @@ export const getUserOrdersController = async (req, res) => {
 // Get all orders (admin only)
 export const getAllOrdersController = async (req, res) => {
     try {
-        const orders = await orderModel.find({})
-            .populate({
-                path: 'products',
-                populate: {
-                    path: 'category',
-                    model: 'category'
-                }
-            })
-            .populate({
-                path: 'quantities.productId',
-                populate: {
-                    path: 'category',
-                    model: 'category'
-                }
-            })
-            // .populate('customer')
-            .sort({ createdAt: -1 });
-        res.status(200).send({
+         const orders = await orderModel
+    .find({})
+    .populate({
+      path: 'products',
+      select: '-photo', // 👈 Exclude the photo field
+      populate: {
+        path: 'category',
+        model: 'category'
+      }
+    })
+    // .populate({
+    //   path: 'quantities.productId',
+    //   select: '-photo', // 👈 Exclude photo here too if needed
+    //   populate: {
+    //     path: 'category',
+    //     model: 'category'
+    //   }
+    // })
+    .populate('customer')
+    .sort({ createdAt: -1 }).lean();
+
+
+    console.log(orders.at(0).products);
+    // console.log(
+    //     Buffer.byteLength(JSON.stringify(orders), 'utf8')
+    // );
+    
+    
+        res.json({
             success: true,
             orders
         });
+
+        
     } catch (error) {
         console.log(error);
         res.status(500).send({
